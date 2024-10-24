@@ -1,0 +1,103 @@
+Tabelas de Banco de Dados
+
+1. RESTAURANTE
+
+	id (PK)
+	nome
+	endereco
+	telefone
+
+2. CATEGORIA 
+
+	id (PK)
+	nome
+
+3. PRODUTO
+
+	id (PK)
+	nome
+	descricao
+	preco
+	id_categoria (FK) 
+	id_restaurante (FK)
+
+4. ENDEREÇO 
+
+	id (PK)
+	rua
+	numero
+	bairro
+	cidade
+	estado
+	cep
+
+5. PROMOÇÃO 
+
+	id(PK)
+	descricao
+	desconto
+	id_produto (FK) 
+
+6. AVALIAÇÃO 
+
+	id (PK)
+	nota
+	comentario
+	id_produto (FK) 
+
+7. ACOMPANHAMENTO
+
+	id (PK)
+	descricao
+	preco
+
+8. PEDIDO
+
+	id (PK)
+	id_endereco (FK) 
+	id_forma_pagamento (FK) 
+	status_entrega
+	id_restaurante (FK) 
+
+9. FORMA_PAGAMENTO 
+
+	id (PK)
+	descricao 
+
+10. STATUS_ENTREGA
+
+	id_(PK)
+	descricao_status 
+
+11. HISTÓRICO_PAGAMENTO
+
+	id (PK)
+	id_pedido (FK) (
+	id_forma_pagamento (FK) 
+	data_pagamento
+
+12. HISTÓRICO_ENTREGA
+
+	id(PK)
+	id_pedido (FK) 
+	data_entrega
+	id_status_entrega (FK) 
+
+13. PRODUTO_ACOMPANHAMENTO 
+
+
+	id_produto (FK) 
+	id_acompanhamento (FK) 
+
+14. PRODUTO_CARRINHO 
+
+	id_produto (FK)
+	id_pedido (FK) 
+	quantidade
+	observacoes
+
+15. PRO_CAR_ACOMPANHAMENTO
+
+	
+	id_produto_car (FK) 
+	id_acompanhamento (FK) 
