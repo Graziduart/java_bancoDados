@@ -1,0 +1,133 @@
+CREATE TABLE Restaurante (
+    restaurante_id INT PRIMARY KEY,
+    nome_restaurante VARCHAR(100),
+    localizacao VARCHAR(200),
+    contato VARCHAR(20),
+    tipo_comida VARCHAR(50),
+    horario_abertura VARCHAR(100),
+    permite_retirada BOOLEAN
+);
+
+CREATE TABLE Endereco (
+    endereco_id INT PRIMARY KEY,
+    logradouro VARCHAR(100),
+    bairro VARCHAR(50),
+    cidade VARCHAR(50),
+    estado VARCHAR(2),
+    cep VARCHAR(10),
+    complemento VARCHAR(100)
+);
+
+CREATE TABLE Promocao (
+    promocao_id INT PRIMARY KEY,
+    titulo VARCHAR(50),
+    desconto DECIMAL(10, 2),
+    codigo_promocional VARCHAR(20),
+    validade DATE
+);
+
+CREATE TABLE StatusEntrega (
+    status_id INT PRIMARY KEY,
+    descricao_status VARCHAR(50)
+);
+
+CREATE TABLE FormaPagamento (
+    forma_pagamento_id INT PRIMARY KEY,
+    descricao_forma VARCHAR(50)
+);
+
+CREATE TABLE Pedido (
+    pedido_id INT PRIMARY KEY,
+    data_criacao DATE,
+    restaurante_id INT,
+    total DECIMAL(10, 2),
+    promocao_id INT,
+    status_id INT,
+    forma_pagamento_id INT,
+    observacao TEXT,
+    valor_troco DECIMAL(10, 2),
+    endereco_id INT,
+    FOREIGN KEY (restaurante_id) REFERENCES Restaurante(restaurante_id),
+    FOREIGN KEY (promocao_id) REFERENCES Promocao(promocao_id),
+    FOREIGN KEY (status_id) REFERENCES StatusEntrega(status_id),
+    FOREIGN KEY (forma_pagamento_id) REFERENCES FormaPagamento(forma_pagamento_id),
+    FOREIGN KEY (endereco_id) REFERENCES Endereco(endereco_id)
+);
+
+CREATE TABLE Produto (
+    produto_id INT PRIMARY KEY,
+    nome_produto VARCHAR(100),
+    descricao_produto TEXT,
+    preco DECIMAL(10, 2),
+    categoria_id INT,
+    restaurante_id INT,
+    FOREIGN KEY (restaurante_id) REFERENCES Restaurante(restaurante_id)
+);
+
+CREATE TABLE Categoria (
+    categoria_id INT PRIMARY KEY,
+    nome_categoria VARCHAR(50)
+);
+
+CREATE TABLE Acompanhamento (
+    acompanhamento_id INT PRIMARY KEY,
+    nome_acomp VARCHAR(100),
+    descricao_acomp TEXT,
+    preco_acomp DECIMAL(10, 2)
+);
+
+CREATE TABLE Avaliacao (
+    avaliacao_id INT PRIMARY KEY,
+    pedido_id INT,
+    nota INT,
+    comentario TEXT,
+    FOREIGN KEY (pedido_id) REFERENCES Pedido(pedido_id)
+);
+
+CREATE TABLE PedidoProduto (
+    pedido_id INT,
+    produto_id INT,
+    quantidade INT,
+    PRIMARY KEY (pedido_id, produto_id),
+    FOREIGN KEY (pedido_id) REFERENCES Pedido(pedido_id),
+    FOREIGN KEY (produto_id) REFERENCES Produto(produto_id)
+);
+
+CREATE TABLE ProdutoAcompanhamento (
+    produto_id INT,
+    acompanhamento_id INT,
+    PRIMARY KEY (produto_id, acompanhamento_id),
+    FOREIGN KEY (produto_id) REFERENCES Produto(produto_id),
+    FOREIGN KEY (acompanhamento_id) REFERENCES Acompanhamento(acompanhamento_id)
+);
+
+CREATE TABLE PedidoProdutoAcomp (
+    pedido_produto_id INT,
+    acompanhamento_id INT,
+    PRIMARY KEY (pedido_produto_id, acompanhamento_id),
+    FOREIGN KEY (pedido_produto_id) REFERENCES PedidoProduto(pedido_id),
+    FOREIGN KEY (acompanhamento_id) REFERENCES Acompanhamento(acompanhamento_id)
+);
+
+CREATE TABLE Cliente (
+    cliente_id INT PRIMARY KEY,
+    nome_cliente VARCHAR(100),
+    telefone_cliente VARCHAR(20),
+    email_cliente VARCHAR(100)
+);
+
+CREATE TABLE ClienteEndereco (
+    cliente_id INT,
+    endereco_id INT,
+    PRIMARY KEY (cliente_id, endereco_id),
+    FOREIGN KEY (cliente_id) REFERENCES Cliente(cliente_id),
+    FOREIGN KEY (endereco_id) REFERENCES Endereco(endereco_id)
+);
+
+CREATE TABLE ClientePedido (
+    cliente_id INT,
+    pedido_id INT,
+    PRIMARY KEY (cliente_id, pedido_id),
+    FOREIGN KEY (cliente_id) REFERENCES Cliente(cliente_id),
+    FOREIGN KEY (pedido_id) REFERENCES Pedido(pedido_id)
+);
